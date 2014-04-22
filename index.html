@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+ 	<title>Todo List App</title>
+	<link href="style.css" rel="stylesheet">
+	<script src="./lib/jquery-2.1.0.js" type="text/javascript"></script>
+	<script src="./lib/jquery-ui-1.10.4.min.js" type="text/javascript"></script>  
+</head>
+
+<body>
+<div class ="container">
+	<h1>Easy Task Tracker</h1>
+	<form class="addTaskForm">
+	    <input type="text" name="taskInput" class="taskInput" />
+	    <label for="taskInput"><input type="submit" class="addTask" value="Add Task" /></label>
+	</form>
+    <h2>List of Tasks:</h2>
+	<div class="listTasks"></div>
+</div> 
+
+<script>
+
+$(document).ready(function() {
+    $('.taskInput').focus();
+    $(document)
+
+    // Add a task
+    .on('click', '.addTask', function() {
+        var taskToAdd = $('input[name="taskInput"]').val();
+        if (taskToAdd) {
+            $('.listTasks').append('<div class="input"><input type="checkbox" name="task" class="task" value="' + taskToAdd + '" /> '+ taskToAdd +'</div>');
+        }
+        $('.taskInput').val('').focus();
+    })
+        
+    // Remove a task
+    .on('change', '.task', function() {
+        if($(this).is(':checked')){
+            var parentItem = $(this).parent();
+            parentItem.effect('explode', 500, function() {
+                parentItem.remove();
+            });
+        }
+    });
+    
+    // Prevent propagation
+    $('.addTaskForm').submit( function(event) {
+        event.preventDefault();        
+        return false;
+    });
+
+    // Enable sortable list
+    $('.listTasks').sortable();         
+        
+});
+
+</script>
+</body>
+</html>
